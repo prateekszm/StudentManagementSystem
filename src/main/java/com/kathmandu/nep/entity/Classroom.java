@@ -1,22 +1,48 @@
-package com.kathmandu.nep.model;
+package com.kathmandu.nep.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name= "classroom")
 public class Classroom {
+	@Id
+	@Column(name="class_id")
+	@GeneratedValue
 	public Integer classId;
+	
+	@OneToOne
+	@JoinColumn(name="section_id")
 	public Section section;
-	public String teacher;
+	
+	@OneToOne
+	@JoinColumn(name = "teacher_id")
+	public Teacher teacher;
+	
+	@Column(name = "grade")
 	public String grade;
+	
+	//Getter and setters and constructor
 	
 	public Classroom() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Classroom(Integer classId, Section section, String teacher, String grade) {
+	
+	public Classroom(Integer classId, Section section, Teacher teacher, String grade) {
 		super();
 		this.classId = classId;
 		this.section = section;
 		this.teacher = teacher;
 		this.grade = grade;
 	}
+	
+	
 	public Integer getClassId() {
 		return classId;
 	}
@@ -29,10 +55,10 @@ public class Classroom {
 	public void setSection(Section section) {
 		this.section = section;
 	}
-	public String getTeacher() {
+	public Teacher getTeacher() {
 		return teacher;
 	}
-	public void setTeacher(String teacher) {
+	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
 	}
 	public String getGrade() {
@@ -46,5 +72,6 @@ public class Classroom {
 		return "Classroom [classId=" + classId + ", section=" + section + ", teacher=" + teacher + ", grade=" + grade
 				+ "]";
 	}
+	
 	
 }

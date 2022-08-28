@@ -1,8 +1,23 @@
-package com.kathmandu.nep.model;
+package com.kathmandu.nep.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "branch")
 public class Branch {
+	@Id
+	@GeneratedValue
+	@Column(name = "branch_id")
 	private Integer branchId;
+	
+	@Column(name = "name")
 	private String name;
+	
+	//Getter and setters and constructor
 	public Branch() {
 		super();
 		

@@ -1,9 +1,29 @@
-package com.kathmandu.nep.model;
+package com.kathmandu.nep.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="section")
 public class Section {
+	@Id
+	@GeneratedValue
+	@Column(name = "section_id")
 	private Integer sectionId;
+	
+	@Column(name = "section_name")
 	private String sectionName;
+	
+	@OneToOne
+	@JoinColumn(name = "branch_id")
 	private Branch branch;
+	
+	//Getter and setters and constructor
 	public Section() {
 		super();
 	}

@@ -1,28 +1,67 @@
-package com.kathmandu.nep.model;
+package com.kathmandu.nep.entity;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "student")
 public class Student {
+	@Id
+	@GeneratedValue
+	@Column(name = "student_id")
 	private Integer studentId;
+	
+	@Column(name = "first_name")
 	private String firstName;
+	
+	@Column(name = "last_name")
 	private String lastName;
+	
+	@Column(name = "address")
 	private String address;
+	
+	@Column(name = "phone_no")
 	private String phoneNo;
+	
+	@Column(name = "email")
 	private String email;
+	
+	@Column(name = "father_name")
 	private String fatherName;
+	
+	@Column(name = "mother_name")
 	private String motherName;
+	
+	@Column(name = "gender")
 	private String gender;
+	
+	@Column(name = "dob")
+	private Date dob;
+	
+	@Column(name = "local_gurdian")
 	private String localGurdian;
+	
+	@Column(name="local_gurdian_number")
 	private String localGurdianNumber;
+	
+	@OneToOne
+	@JoinColumn(name = "classroom_id")
 	private Classroom classroom;
 	
+	//Getter and setters and constructor
 	public Student() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public Student(Integer studentId, String firstName, String lastName, String address, String phoneNo, String email,
-			String fatherName, String motherName, String gender, String localGurdian, String localGurdianNumber,
+			String fatherName, String motherName, String gender, Date dob, String localGurdian, String localGurdianNumber,
 			Classroom classroom) {
 		super();
 		this.studentId = studentId;
@@ -34,6 +73,7 @@ public class Student {
 		this.fatherName = fatherName;
 		this.motherName = motherName;
 		this.gender = gender;
+		this.dob = dob;
 		this.localGurdian = localGurdian;
 		this.localGurdianNumber = localGurdianNumber;
 		this.classroom = classroom;
@@ -92,6 +132,12 @@ public class Student {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
 	public String getLocalGurdian() {
 		return localGurdian;
 	}
@@ -115,7 +161,7 @@ public class Student {
 		return "Student [studentId=" + studentId + ", firstName=" + firstName + ", lastName=" + lastName + ", address="
 				+ address + ", phoneNo=" + phoneNo + ", email=" + email + ", fatherName=" + fatherName + ", motherName="
 				+ motherName + ", gender=" + gender + ", localGurdian=" + localGurdian + ", localGurdianNumber="
-				+ localGurdianNumber + ", classroom=" + classroom + "]";
+				+ localGurdianNumber + "dob= "+ dob +", classroom=" + classroom + "]";
 	}
 	
 }
