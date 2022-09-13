@@ -1,7 +1,5 @@
 package com.kathmandu.nep.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,7 +41,7 @@ public class Student {
 	private String gender;
 	
 	@Column(name = "dob")
-	private Date dob;
+	private String dob;
 	
 	@Column(name = "local_gurdian")
 	private String localGurdian;
@@ -61,7 +59,7 @@ public class Student {
 		// TODO Auto-generated constructor stub
 	}
 	public Student(Integer studentId, String firstName, String lastName, String address, String phoneNo, String email,
-			String fatherName, String motherName, String gender, Date dob, String localGurdian, String localGurdianNumber,
+			String fatherName, String motherName, String gender, String dob, String localGurdian, String localGurdianNumber,
 			Classroom classroom) {
 		super();
 		this.studentId = studentId;
@@ -132,10 +130,10 @@ public class Student {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public Date getDob() {
+	public String getDob() {
 		return dob;
 	}
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
 	}
 	public String getLocalGurdian() {

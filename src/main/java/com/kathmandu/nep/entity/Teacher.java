@@ -39,10 +39,16 @@ public class Teacher {
 
 	@Column(name = "gender")
 	private String gender;
+	
 
 	@OneToOne
 	@JoinColumn(name = "subject_id")
 	private Subject subject;
+	
+
+	@OneToOne
+	@JoinColumn(name = "classroom_id")
+	private Classroom classroom;
 
 	// Getter and setters and constructor
 	public Teacher() {
@@ -51,7 +57,7 @@ public class Teacher {
 	}
 
 	public Teacher(Integer teacherId, String firstName, String lastName, String address, String phoneNo, String email,
-			String fatherName, String motherName, String gender, Subject subject) {
+			String fatherName, String motherName, String gender, Subject subject, Classroom classroom) {
 		super();
 		this.teacherId = teacherId;
 		this.firstName = firstName;
@@ -63,6 +69,7 @@ public class Teacher {
 		this.motherName = motherName;
 		this.gender = gender;
 		this.subject = subject;
+		this.classroom = classroom;
 	}
 
 	public Integer getTeacherId() {
@@ -145,11 +152,20 @@ public class Teacher {
 		this.subject = subject;
 	}
 
+	public Classroom getClassroom() {
+		return classroom;
+	}
+
+	public void setClassroom(Classroom classroom) {
+		this.classroom = classroom;
+	}
+
 	@Override
 	public String toString() {
 		return "Teacher [teacherId=" + teacherId + ", firstName=" + firstName + ", lastName=" + lastName + ", address="
 				+ address + ", phoneNo=" + phoneNo + ", email=" + email + ", fatherName=" + fatherName + ", motherName="
-				+ motherName + ", gender=" + gender + ", subject=" + subject + "]";
+				+ motherName + ", gender=" + gender + ", subject=" + subject + ", classroom=" + classroom + "]";
 	}
 
+	
 }

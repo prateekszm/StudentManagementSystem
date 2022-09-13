@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -11,10 +13,11 @@ import javax.persistence.Table;
 public class Subject {
 	@Id
 	@GeneratedValue
+	@Column(name = "subject_id")
 	private Integer subjectId;
 
-	@Column(name = "name")
-	private String name;
+	@Column(name = "subject_name")
+	private String name; 
 
 	@Column(name = "full_mark")
 	private Double fullMark;
@@ -22,14 +25,18 @@ public class Subject {
 	@Column(name = "pass_mark")
 	private Double passMark;
 
-	@Column(name = "book_mark")
+	@Column(name = "book_name")
 	private String bookName;
 
-	@Column(name = "author_mark")
+	@Column(name = "author_name")
 	private String author;
 
 	@Column(name = "description")
 	private String description;
+
+	@ManyToOne
+	@JoinColumn(name = "classroom_id", nullable = false)
+	private Classroom classroom;
 
 	public Subject() {
 		super();
@@ -37,7 +44,7 @@ public class Subject {
 	}
 
 	public Subject(Integer subjectId, String name, Double fullMark, Double passMark, String bookName, String author,
-			String description) {
+			String description, Classroom classroom) {
 		super();
 		this.subjectId = subjectId;
 		this.name = name;
@@ -46,6 +53,15 @@ public class Subject {
 		this.bookName = bookName;
 		this.author = author;
 		this.description = description;
+		this.classroom = classroom;
+	}
+
+	public Classroom getClassroom() {
+		return classroom;
+	}
+
+	public void setClassroom(Classroom classroom) {
+		this.classroom = classroom;
 	}
 
 	public Integer getSubjectId() {
@@ -107,7 +123,8 @@ public class Subject {
 	@Override
 	public String toString() {
 		return "Subject [subjectId=" + subjectId + ", name=" + name + ", fullMark=" + fullMark + ", passMark="
-				+ passMark + ", bookName=" + bookName + ", author=" + author + ", description=" + description + "]";
+				+ passMark + ", bookName=" + bookName + ", author=" + author + ", description=" + description
+				+ ", classroom=" + classroom + "]";
 	}
 
 }

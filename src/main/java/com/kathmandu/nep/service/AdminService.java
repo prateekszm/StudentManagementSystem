@@ -3,6 +3,9 @@ package com.kathmandu.nep.service;
 import java.util.List;
 
 import com.kathmandu.nep.entity.Branch;
+import com.kathmandu.nep.entity.Section;
+import com.kathmandu.nep.entity.Subject;
+import com.kathmandu.nep.payloads.BranchDto;
 
 
 public interface AdminService {
@@ -10,15 +13,24 @@ public interface AdminService {
 	
 	//CRUD Branch
 	
-	Branch addBranch(Branch branch);
+	BranchDto addBranch(BranchDto branchDto);
 	
-	Branch getBranchById(Branch branch);
+	BranchDto getBranchById(Integer branchId);
 	
-	List<Branch> getAllBranch();
+	List<BranchDto> getAllBranch();
 	
-	Branch updateBranch(Branch branch);
+	BranchDto updateBranch(BranchDto branchDto);
 	
-	Branch deleteBranch(Branch branch);
+	void deleteBranch(Integer branchId);
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 
 }

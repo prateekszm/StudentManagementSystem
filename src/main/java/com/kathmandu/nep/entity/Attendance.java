@@ -11,13 +11,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "attendence")
+@Table(name = "attendance")
 public class Attendance {
 	
 	@Id
 	@GeneratedValue
-	@Column(name="attendence_id")
-	private Integer attendenceId;
+	@Column(name="attendance_id")
+	private Integer attendanceId;
 	
 	@OneToOne
     @JoinColumn(name="student_id")
@@ -40,22 +40,21 @@ public class Attendance {
 	//Getter and setters and constructor
 	public Attendance() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public Integer getAttendenceId() {
-		return attendenceId;
+	public Integer getAttendanceId() {
+		return attendanceId;
 	}
-	public void setAttendenceId(Integer attendenceId) {
-		this.attendenceId = attendenceId;
+	public void setAttendanceId(Integer attendanceId) {
+		this.attendanceId = attendanceId;
 	}
-	public Attendance(Student student, Classroom classroom, Date date, Boolean isPresent, Teacher teacher, Integer attendenceId) {
+	public Attendance(Student student, Classroom classroom, Date date, Boolean isPresent, Teacher teacher, Integer attendanceId) {
 		super();
 		this.student = student;
 		this.classroom = classroom;
 		this.date = date;
 		this.isPresent = isPresent;
 		this.teacher = teacher;
-		this.attendenceId = attendenceId;
+		this.attendanceId = attendanceId;
 	}
 	public Student getStudent() {
 		return student;
@@ -89,7 +88,7 @@ public class Attendance {
 	}
 	@Override
 	public String toString() {
-		return "Attendance [attendenceid " + attendenceId + " student=" + student + ", classroom=" + classroom + ", date=" + date + ", isPresent="
+		return "Attendance [attendanceId " + attendanceId + " student=" + student + ", classroom=" + classroom + ", date=" + date + ", isPresent="
 				+ isPresent + ", teacher=" + teacher + "]";
 	}
 }

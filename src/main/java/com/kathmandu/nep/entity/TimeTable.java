@@ -20,7 +20,7 @@ public class TimeTable {
 	private String day;
 
 	@Column(name = "time")
-	private Integer time;
+	private String time;
 
 	@OneToOne
 	@JoinColumn(name = "subject_id")
@@ -36,7 +36,7 @@ public class TimeTable {
 		super();
 	}
 
-	public TimeTable(Integer timeTableId, String day, Integer time, Subject subject, Classroom classroom) {
+	public TimeTable(Integer timeTableId, String day, String time, Subject subject, Classroom classroom) {
 		super();
 		this.timeTableId = timeTableId;
 		this.day = day;
@@ -61,11 +61,11 @@ public class TimeTable {
 		this.day = day;
 	}
 
-	public Integer getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(Integer time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 

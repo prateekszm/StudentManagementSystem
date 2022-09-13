@@ -1,30 +1,31 @@
 package com.kathmandu.nep.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kathmandu.nep.entity.Branch;
-import com.kathmandu.nep.service.AdminServiceImpl;
-
-
+import com.kathmandu.nep.payloads.BranchDto;
+import com.kathmandu.nep.service.AdminService;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 	@Autowired
-	AdminServiceImpl adminService;
+	private AdminService adminService;
 	
-	@PostMapping(path="/add/branch")
-	@ResponseBody
-	public Branch addBranch(@ModelAttribute Branch branch) {
+	@PostMapping("/")
+	public ResponseEntity<BranchDto> createBranch(@RequestBody BranchDto branchDto){
+		System.out.println(branchDto.toString());
+		BranchDto addedBranchDto = this.adminService.addBranch(branchDto);
+		return new ResponseEntity<>(addedBranchDto,HttpStatus.CREATED);
 		
-		Branch tobranch = adminService.addBranch(branch);
-		
-		return tobranch;
 	}
+
 	
+	
+
 }
