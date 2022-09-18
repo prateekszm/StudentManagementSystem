@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kathmandu.nep.payloads.ApiResponse;
 import com.kathmandu.nep.payloads.BranchDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
+import com.kathmandu.nep.payloads.ExamDto;
 import com.kathmandu.nep.payloads.SectionDto;
 import com.kathmandu.nep.service.AdminService;
 
@@ -118,5 +119,39 @@ public class AdminController {
 		this.adminService.deleteSection(SectionId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Deleted Sucessfully", true), HttpStatus.OK);
 	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	@PostMapping("addExam/")
+	public ResponseEntity<ExamDto> addExam(@RequestBody ExamDto examDto){
+		ExamDto AddedExamDto= this.adminService.addExam(examDto);
+		return new ResponseEntity<>(AddedExamDto,HttpStatus.CREATED);
+	}
+	
+	@GetMapping("getAllExam/")
+	public ResponseEntity<List<ExamDto>> getAllExam(){
+		List<ExamDto> examDtoList = this.adminService.getAllExam();
+		return ResponseEntity.ok(examDtoList);
+	}
+	
+	@GetMapping("getExamById/{examId}")
+	public ResponseEntity<ExamDto> getExamById(@PathVariable Integer examId){
+		ExamDto examDto = this.adminService.getExamById(examId);
+		return ResponseEntity.ok(examDto);
+	}
+	
+	@PostMapping("updateExam/{examId}")
+	public ResponseEntity<ExamDto> updateExam(@RequestBody ExamDto examDto,@PathVariable Integer examId){
+		ExamDto updatedExamDto = this.adminService.updateExam(examDto,examId);
+		return  ResponseEntity.ok(updatedExamDto);
+	}
+	
+	@DeleteMapping("deleteExam/{examId}")
+	public ResponseEntity<ApiResponse> deleteExam(@PathVariable Integer examId){
+		this.adminService.deleteExam(examId);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("Deleted Sucessfully", true),HttpStatus.OK);
+	}
+	
+	
 	
 }

@@ -1,48 +1,23 @@
-package com.kathmandu.nep.entity;
+package com.kathmandu.nep.payloads;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import com.kathmandu.nep.entity.Classroom;
 
-@Entity
-@Table(name = "exam")
-public class Exam {
-	@Id
-	@GeneratedValue
-	@Column(name = "exam_id")
+public class ExamDto {
 	private Integer examId;
-
-	@Column(name = "name")
 	private String name;
-
-	@Column(name = "date")
 	private String date;
-
-	@Column(name = "time")
 	private String time;
-
-	@Column(name = "type")
 	private String type;
-
-	@OneToOne
-	@JoinColumn(name = "classroom_id")
 	private Classroom classroom;
-
-	@Column(name = "is_completed")
-	private boolean isCompleted;
+	private Boolean isCompleted;
 
 	// Getter and setters and constructor
-
-	public Exam() {
+	public ExamDto() {
 		super();
 	}
 
-	public Exam(Integer examId, String name, String date, String time, String type, Classroom classroom,
-			boolean isCompleted) {
+	public ExamDto(Integer examId, String name, String date, String time, String type, Classroom classroom,
+			Boolean isCompleted) {
 		super();
 		this.examId = examId;
 		this.name = name;
@@ -111,9 +86,14 @@ public class Exam {
 
 	@Override
 	public String toString() {
-		return "Exam [examId=" + examId + ", name=" + name + ", date=" + date + ", time=" + time + ", type=" + type
-				+ ", classroom=" + classroom + ", isCompleted=" + isCompleted + "]";
+		return "ExamDto{" +
+				"examId=" + examId +
+				", name='" + name + '\'' +
+				", date='" + date + '\'' +
+				", time='" + time + '\'' +
+				", type='" + type + '\'' +
+				", classroom=" + classroom +
+				", isCompleted=" + isCompleted +
+				'}';
 	}
-
-	
 }

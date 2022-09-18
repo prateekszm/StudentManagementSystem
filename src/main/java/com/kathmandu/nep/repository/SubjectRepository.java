@@ -10,4 +10,5 @@ import com.kathmandu.nep.entity.Subject;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
 	List<Subject> findByName(String name);
+	
 }

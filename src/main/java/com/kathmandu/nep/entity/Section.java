@@ -9,6 +9,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "section")
 public class Section {
@@ -24,8 +27,9 @@ public class Section {
 	@JoinColumn(name = "branch_id")
 	private Branch branch;
 
-	@OneToOne
-	@JoinColumn(name = "classroom_id")
+	@ManyToOne
+	@JoinColumn(name = "classroom_id",nullable = false)
+	@JsonBackReference
 	private Classroom classroom;
 
 	// Getter and setters and constructor
@@ -63,6 +67,12 @@ public class Section {
 
 	public void setClassroom(Classroom classroom) {
 		this.classroom = classroom;
+	}
+
+	@Override
+	public String toString() {
+		return "Section [sectionId=" + sectionId + ", sectionName=" + sectionName + ", branch=" + branch
+				+ ", classroom=" + classroom + "]";
 	}
 
 }

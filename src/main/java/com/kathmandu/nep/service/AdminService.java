@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kathmandu.nep.payloads.BranchDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
+import com.kathmandu.nep.payloads.ExamDto;
 import com.kathmandu.nep.payloads.SectionDto;
 
 
@@ -33,6 +34,15 @@ public interface AdminService {
 	SectionDto getSectionById(Integer sectionId);
 	SectionDto updateSection(SectionDto sectionDto,Integer sectionId);
 	void deleteSection(Integer sectionId);
+	
+	
+	//CRUD Section
+	List<ExamDto> getAllExam();
+	ExamDto addExam(ExamDto examDto);
+	ExamDto getExamById(Integer examId);
+	ExamDto updateExam(ExamDto examDto,Integer examId);
+	void deleteExam(Integer examId);
+	
 	
 	
 	

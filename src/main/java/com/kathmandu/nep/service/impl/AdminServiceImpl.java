@@ -9,13 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.kathmandu.nep.entity.Branch;
 import com.kathmandu.nep.entity.Classroom;
+import com.kathmandu.nep.entity.Exam;
 import com.kathmandu.nep.entity.Section;
 import com.kathmandu.nep.exceptionHandler.ResourceNotFoundException;
 import com.kathmandu.nep.payloads.BranchDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
+import com.kathmandu.nep.payloads.ExamDto;
 import com.kathmandu.nep.payloads.SectionDto;
 import com.kathmandu.nep.repository.BranchRepository;
 import com.kathmandu.nep.repository.ClassroomRepository;
+import com.kathmandu.nep.repository.ExamRepository;
 import com.kathmandu.nep.repository.SectionRepository;
 import com.kathmandu.nep.repository.SubjectRepository;
 import com.kathmandu.nep.service.AdminService;
@@ -34,6 +37,9 @@ public class AdminServiceImpl implements AdminService {
 	private SubjectRepository subjectRepository;
 	@Autowired
 	private ClassroomRepository classroomRepository;
+
+	@Autowired
+	private ExamRepository examRepository;
 
 	@Override
 	public BranchDto addBranch(BranchDto branchDto) {
@@ -105,7 +111,8 @@ public class AdminServiceImpl implements AdminService {
 	public ClassroomDto updateClassroom(ClassroomDto classroomDto, Integer classroomId) {
 		Classroom classroom = this.classroomRepository.findById(classroomId)
 				.orElseThrow(() -> new ResourceNotFoundException("Classroom", "classroom id", classroomId.toString()));
-		classroom = this.modelMapper.map(classroomDto, Classroom.class);
+		System.out.println(classroomDto.toString());
+		classroom = this.modelMapper.map(classroomDto , Classroom.class);
 		Classroom updated = this.classroomRepository.save(classroom);
 		return this.modelMapper.map(updated, ClassroomDto.class);
 	}
@@ -119,8 +126,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	// classroom Operation ends here
-	
-	//CRUD section operation start here
+
+	// CRUD section operation start here
 
 	@Override
 	public List<SectionDto> getAllSection() {
@@ -150,6 +157,7 @@ public class AdminServiceImpl implements AdminService {
 		Section section = this.sectionRepository.findById(sectionId)
 				.orElseThrow(() -> new ResourceNotFoundException("Section", "section id", sectionId.toString()));
 		section = this.modelMapper.map(sectionDto, Section.class);
+		System.out.println(section.toString());
 		Section updatedSection = this.sectionRepository.save(section);
 		return this.modelMapper.map(updatedSection, SectionDto.class);
 	}
@@ -160,10 +168,46 @@ public class AdminServiceImpl implements AdminService {
 				.orElseThrow(() -> new ResourceNotFoundException("Section", "section id", sectionId.toString()));
 		this.sectionRepository.delete(section);
 
-	}	
-	//CRUD section operation ends here
-	
-	
-	
+	}
+	// CRUD section operation ends here
+
+	// CRUD Exam operation starts here
+
+	@Override
+	public List<ExamDto> getAllExam() {
+		List<Exam> examList = this.examRepository.findAll();
+		List<ExamDto> examDtoList = examList.stream().map((examDto) -> this.modelMapper.map(examDto, ExamDto.class))
+				.collect(Collectors.toList());
+		return examDtoList;
+	}
+
+	@Override
+	public ExamDto addExam(ExamDto examDto) {
+		Exam exam = this.modelMapper.map(examDto, Exam.class);
+		Exam addedExam = this.examRepository.save(exam);
+		return this.modelMapper.map(addedExam, ExamDto.class);
+	}
+
+	@Override
+	public ExamDto getExamById(Integer examId) {
+		Exam exam = this.examRepository.findById(examId)
+				.orElseThrow(() -> new ResourceNotFoundException("Exam", "exam id", examId.toString()));
+		return this.modelMapper.map(exam, ExamDto.class);
+	}
+
+	@Override
+	public ExamDto updateExam(ExamDto examDto, Integer examId) {
+		Exam exam = this.examRepository.findById(examId)
+				.orElseThrow(() -> new ResourceNotFoundException("Exam", "exam id", examId.toString()));
+		exam = this.modelMapper.map(examDto, Exam.class);
+		return this.modelMapper.map(this.examRepository.save(exam), ExamDto.class);
+	}
+
+	@Override
+	public void deleteExam(Integer examId) {
+		Exam exam = this.examRepository.findById(examId)
+				.orElseThrow(() -> new ResourceNotFoundException("Exam", "exam id", examId.toString()));
+		this.examRepository.delete(exam);
+	}
 
 }
