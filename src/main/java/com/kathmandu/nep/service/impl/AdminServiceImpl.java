@@ -11,16 +11,18 @@ import com.kathmandu.nep.entity.Branch;
 import com.kathmandu.nep.entity.Classroom;
 import com.kathmandu.nep.entity.Exam;
 import com.kathmandu.nep.entity.Section;
+import com.kathmandu.nep.entity.Teacher;
 import com.kathmandu.nep.exceptionHandler.ResourceNotFoundException;
 import com.kathmandu.nep.payloads.BranchDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
 import com.kathmandu.nep.payloads.ExamDto;
 import com.kathmandu.nep.payloads.SectionDto;
+import com.kathmandu.nep.payloads.TeacherDto;
 import com.kathmandu.nep.repository.BranchRepository;
 import com.kathmandu.nep.repository.ClassroomRepository;
 import com.kathmandu.nep.repository.ExamRepository;
 import com.kathmandu.nep.repository.SectionRepository;
-import com.kathmandu.nep.repository.SubjectRepository;
+import com.kathmandu.nep.repository.TeacherRepository;
 import com.kathmandu.nep.service.AdminService;
 
 @Service
@@ -34,10 +36,9 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private SectionRepository sectionRepository;
 	@Autowired
-	private SubjectRepository subjectRepository;
-	@Autowired
 	private ClassroomRepository classroomRepository;
-
+	@Autowired
+	private TeacherRepository teacherRepository;
 	@Autowired
 	private ExamRepository examRepository;
 
@@ -209,5 +210,46 @@ public class AdminServiceImpl implements AdminService {
 				.orElseThrow(() -> new ResourceNotFoundException("Exam", "exam id", examId.toString()));
 		this.examRepository.delete(exam);
 	}
+	
+	//teacher
+	@Override
+	public List<TeacherDto> getAllTeacher() {
+		List<Teacher> teacherList = this.teacherRepository.findAll();
+		List<TeacherDto> teacherDtoList = teacherList.stream().map((teacherDto) -> this.modelMapper.map(teacherDto, TeacherDto.class))
+				.collect(Collectors.toList());
+		return teacherDtoList;
+	}
+
+	@Override
+	public TeacherDto addTeacher(TeacherDto teacherDto) {
+		Teacher teacher = this.modelMapper.map(teacherDto, Teacher.class);
+		Teacher addedTeacher = this.teacherRepository.save(teacher);
+		return this.modelMapper.map(addedTeacher, TeacherDto.class);
+	}
+
+	@Override
+	public TeacherDto getTeacherById(Integer teacherId) {
+		Teacher teacher = this.teacherRepository.findById(teacherId)
+				.orElseThrow(() -> new ResourceNotFoundException("Teacher", "teacher id", teacherId.toString()));
+		return this.modelMapper.map(teacher, TeacherDto.class);
+	}
+
+	@Override
+	public TeacherDto updateTeacher(TeacherDto teacherDto, Integer teacherId) {
+		Teacher teacher = this.teacherRepository.findById(teacherId)
+				.orElseThrow(() -> new ResourceNotFoundException("Teacher", "teacher id", teacherId.toString()));
+		teacher = this.modelMapper.map(teacherDto, Teacher.class);
+		return this.modelMapper.map(this.teacherRepository.save(teacher), TeacherDto.class);
+	}
+
+	@Override
+	public void deleteTeacher(Integer teacherId) {
+		Teacher teacher = this.teacherRepository.findById(teacherId)
+				.orElseThrow(() -> new ResourceNotFoundException("Teacher", "teacher id", teacherId.toString()));
+		this.teacherRepository.delete(teacher);
+	}
+
+	
+	
 
 }

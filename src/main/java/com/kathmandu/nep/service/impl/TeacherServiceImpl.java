@@ -1,5 +1,6 @@
 package com.kathmandu.nep.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,15 +9,18 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kathmandu.nep.entity.Attendance;
 import com.kathmandu.nep.entity.Classroom;
 import com.kathmandu.nep.entity.Student;
 import com.kathmandu.nep.entity.Subject;
 import com.kathmandu.nep.entity.TimeTable;
 import com.kathmandu.nep.exceptionHandler.ResourceNotFoundException;
+import com.kathmandu.nep.payloads.AttendanceDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
 import com.kathmandu.nep.payloads.StudentDto;
 import com.kathmandu.nep.payloads.SubjectDto;
 import com.kathmandu.nep.payloads.TimeTableDto;
+import com.kathmandu.nep.repository.AttendanceRepository;
 import com.kathmandu.nep.repository.ClassroomRepository;
 import com.kathmandu.nep.repository.StudentRepository;
 import com.kathmandu.nep.repository.SubjectRepository;
@@ -26,16 +30,17 @@ import com.kathmandu.nep.service.TeacherService;
 @Service
 public class TeacherServiceImpl implements TeacherService {
 	@Autowired
-	StudentRepository studentRepository;
+	private StudentRepository studentRepository;
 	@Autowired
-	ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 	@Autowired
-	SubjectRepository subjectRepository;
+	private SubjectRepository subjectRepository;
 	@Autowired
-	TimeTableRepository timeTableRepository;
-
+	private TimeTableRepository timeTableRepository;
 	@Autowired
-	ClassroomRepository classroomRepository;
+	private ClassroomRepository classroomRepository;
+	@Autowired
+	private AttendanceRepository attendanceRepository;
 
 	@Override
 	public List<StudentDto> getAllStudent() {
@@ -165,6 +170,57 @@ public class TeacherServiceImpl implements TeacherService {
 				.collect(Collectors.toList());
 		return timeTableDtoList;
 
+	}
+
+	/// attendance
+
+	@Override
+	public List<AttendanceDto> getAllAttendance() {
+		List<Attendance> attendanceList = this.attendanceRepository.findAll();
+		List<AttendanceDto> attendanceDtoList = attendanceList.stream()
+				.map((attendanceDto) -> this.modelMapper.map(attendanceDto, AttendanceDto.class))
+				.collect(Collectors.toList());
+		return attendanceDtoList;
+	}
+
+	@Override
+	public AttendanceDto addAttendance(AttendanceDto attendanceDto) {
+		Attendance attendance = this.modelMapper.map(attendanceDto, Attendance.class);
+		Attendance addedAttendance = this.attendanceRepository.save(attendance);
+		return this.modelMapper.map(addedAttendance, AttendanceDto.class);
+	}
+
+	@Override
+	public AttendanceDto getAttendanceById(Integer attendanceId) {
+		Attendance attendance = this.attendanceRepository.findById(attendanceId).orElseThrow(
+				() -> new ResourceNotFoundException("Attendance", "attendance id", attendanceId.toString()));
+		return this.modelMapper.map(attendance, AttendanceDto.class);
+	}
+
+	@Override
+	public AttendanceDto updateAttendance(AttendanceDto attendanceDto, Integer attendanceId) {
+		Attendance attendance = this.attendanceRepository.findById(attendanceId).orElseThrow(
+				() -> new ResourceNotFoundException("Attendance", "attendance id", attendanceId.toString()));
+		attendance = this.modelMapper.map(attendanceDto, Attendance.class);
+		return this.modelMapper.map(this.attendanceRepository.save(attendance), AttendanceDto.class);
+	}
+
+	@Override
+	public void deleteAttendance(Integer attendanceId) {
+		Attendance attendance = this.attendanceRepository.findById(attendanceId).orElseThrow(
+				() -> new ResourceNotFoundException("Attendance", "attendance id", attendanceId.toString()));
+		this.attendanceRepository.delete(attendance);
+	}
+
+	@Override
+	public List<AttendanceDto> getAttendanceByClassAndDate(ClassroomDto classroomDto, Date date, Integer classroomId) {
+		Classroom classroom = this.classroomRepository.findById(classroomId)
+				.orElseThrow(() -> new ResourceNotFoundException("Attendance", " classroom ", classroomId.toString()));
+		List<Attendance> attendanceList = this.attendanceRepository.findByClassroomAndDate(classroom, date);
+		List<AttendanceDto> attendanceDtoList = attendanceList.stream()
+				.map((attendanceDto) -> this.modelMapper.map(attendanceDto, AttendanceDto.class))
+				.collect(Collectors.toList());
+		return attendanceDtoList;
 	}
 
 }

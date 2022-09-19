@@ -6,6 +6,7 @@ import com.kathmandu.nep.payloads.BranchDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
 import com.kathmandu.nep.payloads.ExamDto;
 import com.kathmandu.nep.payloads.SectionDto;
+import com.kathmandu.nep.payloads.TeacherDto;
 
 
 public interface AdminService {
@@ -44,7 +45,12 @@ public interface AdminService {
 	void deleteExam(Integer examId);
 	
 	
-	
+	//CRUD Teacher
+	TeacherDto addTeacher(TeacherDto teacherDto);
+	TeacherDto getTeacherById(Integer teacherId);
+	List<TeacherDto> getAllTeacher();
+	TeacherDto updateTeacher(TeacherDto teacherDto,Integer teacherId);	
+	void deleteTeacher(Integer teacherId);
 	
 	
 	

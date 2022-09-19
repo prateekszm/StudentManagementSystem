@@ -1,5 +1,6 @@
 package com.kathmandu.nep.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kathmandu.nep.payloads.ApiResponse;
+import com.kathmandu.nep.payloads.AttendanceDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
 import com.kathmandu.nep.payloads.StudentDto;
 import com.kathmandu.nep.payloads.SubjectDto;
@@ -128,4 +131,44 @@ public class TeacherController {
 		this.teacherService.deleteTimeTable(timeTableId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Deleted Sucessfully", true), HttpStatus.OK);
 	}
+
+	// Attendance
+	@PostMapping("addAttendance/")
+	public ResponseEntity<AttendanceDto> createAttendance(@RequestBody AttendanceDto attendanceDto) {
+		AttendanceDto addedAttendanceDto = this.teacherService.addAttendance(attendanceDto);
+		return new ResponseEntity<>(addedAttendanceDto, HttpStatus.CREATED);
+
+	}
+
+	@GetMapping("getAllAttendance/")
+	public ResponseEntity<List<AttendanceDto>> getAllAttendances() {
+		return ResponseEntity.ok(this.teacherService.getAllAttendance());
+	}
+
+	@GetMapping("getAttendanceById/{attendanceId}")
+	public ResponseEntity<AttendanceDto> getAttendanceById(@PathVariable Integer attendanceId) {
+		AttendanceDto attendanceDto = this.teacherService.getAttendanceById(attendanceId);
+		return ResponseEntity.ok(attendanceDto);
+	}
+
+	@GetMapping("getAttendanceByClassroomAndDate/{ClassroomId}")
+	public ResponseEntity<List<AttendanceDto>> getAttendanceByClassroomAndDate(@RequestBody ClassroomDto classroomDto,@RequestParam(name = "date") Date date,
+			@PathVariable Integer ClassroomId) {
+		List<AttendanceDto> attendanceDtoList = this.teacherService.getAttendanceByClassAndDate(classroomDto, date, ClassroomId);
+		return ResponseEntity.ok(attendanceDtoList);
+	}
+
+	@PutMapping("updateAttendance/{attendanceId}")
+	public ResponseEntity<AttendanceDto> updateAttendance(@RequestBody AttendanceDto attendanceDto,
+			@PathVariable Integer attendanceId) {
+		AttendanceDto updatedAttendanceDto = this.teacherService.updateAttendance(attendanceDto, attendanceId);
+		return ResponseEntity.ok(updatedAttendanceDto);
+	}
+
+	@DeleteMapping("deleteAttendance/{attendanceId}")
+	public ResponseEntity<ApiResponse> deleteUser(@PathVariable Integer attendanceId) {
+		this.teacherService.deleteAttendance(attendanceId);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("Deleted Sucessfully", true), HttpStatus.OK);
+	}
+
 }

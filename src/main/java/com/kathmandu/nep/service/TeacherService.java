@@ -1,7 +1,9 @@
 package com.kathmandu.nep.service;
 
+import java.sql.Date;
 import java.util.List;
 
+import com.kathmandu.nep.payloads.AttendanceDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
 import com.kathmandu.nep.payloads.StudentDto;
 import com.kathmandu.nep.payloads.SubjectDto;
@@ -30,6 +32,14 @@ public interface TeacherService {
 	TimeTableDto updateTimeTable(TimeTableDto timeTableDto, Integer timeTableId);
 	void deleteTimeTable(Integer timeTableId);
 	List<TimeTableDto> getTimeTableByClassroom(ClassroomDto classroomDto, Integer classroomId);
+	
+	//AttenDance
+	AttendanceDto addAttendance(AttendanceDto attendanceDto);
+	AttendanceDto getAttendanceById(Integer attendanceId);
+	List<AttendanceDto> getAllAttendance();
+	AttendanceDto updateAttendance(AttendanceDto attendanceDto,Integer attendanceId);	
+	void deleteAttendance(Integer attendanceId);
+	List<AttendanceDto> getAttendanceByClassAndDate(ClassroomDto classroom,Date date,Integer classroomId);
 
 }
 

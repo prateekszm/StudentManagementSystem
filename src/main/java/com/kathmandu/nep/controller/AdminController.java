@@ -19,6 +19,7 @@ import com.kathmandu.nep.payloads.BranchDto;
 import com.kathmandu.nep.payloads.ClassroomDto;
 import com.kathmandu.nep.payloads.ExamDto;
 import com.kathmandu.nep.payloads.SectionDto;
+import com.kathmandu.nep.payloads.TeacherDto;
 import com.kathmandu.nep.service.AdminService;
 
 @RestController
@@ -152,6 +153,36 @@ public class AdminController {
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Deleted Sucessfully", true),HttpStatus.OK);
 	}
 	
+	//Teacher
 	
+	@PostMapping("addTeacher/")
+	public ResponseEntity<TeacherDto> createTeacher(@RequestBody TeacherDto teacherDto) {
+		TeacherDto addedTeacherDto = this.adminService.addTeacher(teacherDto);
+		return new ResponseEntity<>(addedTeacherDto, HttpStatus.CREATED);
+
+	}
+
+	@GetMapping("getAllTeacher/")
+	public ResponseEntity<List<TeacherDto>> getAllTeachers() {
+		return ResponseEntity.ok(this.adminService.getAllTeacher());
+	}
+
+	@GetMapping("getTeacherById/{teacherId}")
+	public ResponseEntity<TeacherDto> getTeacherById(@PathVariable Integer teacherId) {
+		TeacherDto teacherDto = this.adminService.getTeacherById(teacherId);
+		return ResponseEntity.ok(teacherDto);
+	}
+
+	@PutMapping("updateTeacher/{teacherId}")
+	public ResponseEntity<TeacherDto> updateTeacher(@RequestBody TeacherDto teacherDto, @PathVariable Integer teacherId) {
+		TeacherDto updatedTeacherDto = this.adminService.updateTeacher(teacherDto, teacherId);
+		return ResponseEntity.ok(updatedTeacherDto);
+	}
+
+	@DeleteMapping("deleteTeacher/{teacherId}")
+	public ResponseEntity<ApiResponse> deleteTeacher(@PathVariable Integer teacherId) {
+		this.adminService.deleteTeacher(teacherId);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("Deleted Sucessfully", true), HttpStatus.OK);
+	}
 	
 }
