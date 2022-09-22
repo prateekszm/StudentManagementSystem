@@ -2,6 +2,7 @@ package com.kathmandu.nep.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -40,7 +41,7 @@ public class Subject {
 
 	public Subject() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Subject(Integer subjectId, String name, Double fullMark, Double passMark, String bookName, String author,

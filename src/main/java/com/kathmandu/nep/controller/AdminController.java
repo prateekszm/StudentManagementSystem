@@ -85,7 +85,7 @@ public class AdminController {
 		return ResponseEntity.ok(updatedClassroomDto);
 	}
 
-	@DeleteMapping("deleteClass/{classroomId}")
+	@DeleteMapping("deleteClassroom/{classroomId}")
 	public ResponseEntity<ApiResponse> deleteClassroom(@PathVariable Integer classroomId) {
 		this.adminService.deleteClassroom(classroomId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Deleted Sucessfully", true), HttpStatus.OK);
